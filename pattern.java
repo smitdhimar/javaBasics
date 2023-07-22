@@ -1,36 +1,78 @@
 import java.io.*;
-
-class pattern {
-  public static void main(String arg[]) {
-    int n = Integer.parseInt(arg[0]);
-    for (int i = 0; i < n / 2 + 1; i++) {
-
-      for (int j = 0; j < n; j++) {
-
-        if (j == (n / 2) - i || j == (n / 2) + i) {
-          System.out.print("*");
-        } else {
-          System.out.print(" ");
-        }
-
+import java.util.Scanner;
+class pattern{
+   public static void main(String arg[])
+   {
+    Scanner inp=new Scanner(System.in);
+     System.out.println("Enter char:");
+     char ch=inp.next().charAt(0);
+     int val=ch;
+     int index;
+    if(val>=65&&val<=90)
+    {
+     index=val-65;
+    
+     int m=7/2;
+     for(int i=0;i<=3;i++)
+     {
+     for(int j=3;j>i;j--)
+     {
+      System.out.print(" ");
+}
+if(i%2==0)
+{
+     for(int k=0;k<=i;k++)
+     {
+      System.out.print((char)(65+index++)+" ");
+    if(index>25)
+      {
+            index=index-26;
       }
-      System.out.print("\n");
-
-    }
-    System.out.print(" ");
-    for (int i = (n / 2) - 1; i >= 0; i--) {
-
-      for (int j = 1; j < n; j++) {
-        if (j == (n / 2) - i || j == (n / 2) + i) {
-          System.out.print("*");
-        } else {
-          System.out.print(" ");
-        }
+}
+}else{
+      for(int k=0;k<=i;k++)
+     {
+      System.out.print((char)(97+index++)+" ");
+    if(index>25)
+      {
+            index=index-26;
       }
-      System.out.print("\n ");
-
+}
+}
+      System.out.println();
+}
+    }else{
+        index=val-97;
+    
+     int m=7/2;
+     for(int i=0;i<=3;i++)
+     {
+     for(int j=3;j>i;j--)
+     {
+      System.out.print(" ");
+}
+if(i%2==0)
+{
+     for(int k=0;k<=i;k++)
+     {
+      System.out.print((char)(97+index++)+" ");
+      if(index>25)
+      {
+            index=index-26;
+      }
+}
+}else{
+      for(int k=0;k<=i;k++)
+     {
+      System.out.print((char)(65+index++)+" ");
+   if(index>25)
+      {
+            index=index-26;
+      }
+}
+}
+      System.out.println();
+}
     }
-
-  }
-
+}
 }

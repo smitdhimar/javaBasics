@@ -54,7 +54,7 @@ class stack {
 
   int pop() {
     if (top < 0) {
-      System.out.println("Stach underflow");
+      System.out.println("Stack underflow");
       return -1;
     } else {
       return st[top--];

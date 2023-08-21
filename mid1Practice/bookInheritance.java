@@ -73,7 +73,8 @@ class bookInheritance {
     int sstock = ob.nextInt();
     obarr[i].update(sprice, sstock);
     System.out.println("Title                  Author             price  stock");
-    for (i = 0; i < 4; i++)
+    for (
+      i = 0; i < 4; i++)
       obarr[i].display();
 
   }

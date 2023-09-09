@@ -1,9 +1,11 @@
-import static java.lang.System.out;
 package p1;
-public class package{
+import static java.lang.System.out;
+import java.io.*;
+
+public class someclass{
     int a;
     int b;
-    public package(int i,int j){
+    public someclass(int i,int j){
         a=i;
         b=j;
     } 

@@ -1,0 +1,6 @@
+this is line 
+from text file1
+this is text from 
+textfile 2
+this is the line
+from texct file 3

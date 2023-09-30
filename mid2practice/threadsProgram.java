@@ -18,6 +18,7 @@ class threadsProgram{
     int arr[]=new int[n];
     for(int i=0;i<n;i++){
       arr[i]=arr_th[i].getSum();
+      arr_th[i].join();
       out.println("addition of column "+i+" : "+ arr[i]);
     }
     

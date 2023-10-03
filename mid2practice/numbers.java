@@ -1,103 +1,85 @@
-// this is the program to print numbers in the range of 0 to 100 in which all odd numbers will be displayed by mainthread and rest from child thread
 import java.io.*;
-import static java.lang.System.out;
 
-class numbers extends Thread{
-  int num=0;
-  volatile flag=0;
-  numbers() {
-    super();
-    start();
-  }
-  void print(){
-    if(flag==0){
-      try{
-        wait();
-      }
-      catch(Exception e){
-        out.println(e.toString());
-      }
-      
+class Buffer {
+    private int num = 0;
+
+    synchronized void printOdd() {
+        while (num % 2 == 0) {
+            try {
+                wait(); // Wait for even numbers to be printed
+            } catch (InterruptedException e) {
+                System.out.println(e.toString());
+            }
+        }
+        System.out.println(num++);
+        notify(); // Notify waiting threads (in this case, the even number printing thread)
     }
-  }
-  public void run(){
-     try{
-       this.print();
-       sleep(100);
-     }
-     catch(Exception e){
-       out.println(e.toString());
-     }
-   } 
-  public static void main(String args[]){
-    numbers ch_th=new numbers();
-    Thread 
-    
-  }
+
+    synchronized void printEven() {
+        while (num % 2 != 0) {
+            try {
+                wait(); // Wait for odd numbers to be printed
+            } catch (InterruptedException e) {
+                System.out.println(e.toString());
+            }
+        }
+        System.out.println(num++);
+        notify(); // Notify waiting threads (in this case, the odd number printing thread)
+    }
 }
-// class child extends Thread{
-//   buffer b_ref;
-//   child(buffer ref){
-//     super();
-//     b_ref=ref;
-//     start();
-//   }
-//   public void run(){
-    
-//   }
-// }
-// class buffer{
-//   int flag=0;
-//   int num;
-//   buffer(){
-//     flag=0;
-//   }
-//   synchronized print(){
-    
-//   }
-// }
 
-// public class numbers {
-//     private static final Object lock = new Object();
-//     private static int number = 0;
+class Numbers extends Thread {
+    private final Buffer bRef;
 
-//     public static void main(String[] args) {
-//         Thread oddThread = new Thread() {
-//             @Override
-//             public void run() {
-//                 while (number <= 100) {
-//                     synchronized (lock) {
-//                         if (number % 2 != 0) {
-//                             System.out.println("Odd: " + number);
-//                             number++;
-//                         }
-//                     }
-//                 }
-//             }
-//         };
+    Numbers(Buffer b) {
+        super();
+        bRef = b;
+        start();
+    }
 
-//         Thread evenThread = new Thread() {
-//             @Override
-//             public void run() {
-//                 while (number <= 100) {
-//                     synchronized (lock) {
-//                         if (number % 2 == 0) {
-//                             System.out.println("Even: " + number);
-//                             number++;
-//                         }
-//                     }
-//                 }
-//             }
-//         };
+    public void run() {
+        for (int i = 0; i < 50; i++) {
+            try {
+                System.out.print("run of main: ");
+                bRef.printOdd();
+                sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
 
-//         oddThread.start();
-//         evenThread.start();
+    public static void main(String args[]) {
+        Buffer mainBRef = new Buffer();
+        Numbers mainTh = new Numbers(mainBRef);
+        Child childTh = new Child(mainBRef);
+        try {
+            mainTh.join();
+            childTh.join();
+        } catch (InterruptedException e) {
+            System.out.println(e.toString());
+        }
+    }
+}
 
-//         try {
-//             oddThread.join();
-//             evenThread.join();
-//         } catch (InterruptedException e) {
-//             e.printStackTrace();
-//         }
-//     }
-// }
+class Child extends Thread {
+    private final Buffer bRef;
+
+    Child(Buffer b) {
+        super();
+        bRef = b;
+        start();
+    }
+
+    public void run() {
+        for (int i = 0; i < 50; i++) {
+            try {
+                System.out.print("run of child: ");
+                bRef.printEven();
+                sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+}

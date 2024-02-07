@@ -1,0 +1,3 @@
+this is text file
+line1
+ line 2
